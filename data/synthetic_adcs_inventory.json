@@ -1,0 +1,53 @@
+{
+  "environment": "synthetic-lab",
+  "description": "Fictional AD CS configuration used only for defensive security testing.",
+  "templates": [
+    {
+      "name": "UserAuthentication",
+      "ekus": ["Client Authentication"],
+      "enrollment_principals": ["Domain Users"],
+      "enrollee_supplies_subject": true,
+      "manager_approval": false,
+      "authorized_signatures": 0,
+      "validity_days": 730,
+      "exportable_private_key": true,
+      "owner": "Identity Engineering"
+    },
+    {
+      "name": "WorkstationAuthentication",
+      "ekus": ["Client Authentication"],
+      "enrollment_principals": ["Domain Computers"],
+      "enrollee_supplies_subject": false,
+      "manager_approval": true,
+      "authorized_signatures": 1,
+      "validity_days": 180,
+      "exportable_private_key": false,
+      "owner": "Endpoint Engineering"
+    },
+    {
+      "name": "LegacyVPNCertificate",
+      "ekus": ["Client Authentication"],
+      "enrollment_principals": ["VPN Certificate Users"],
+      "enrollee_supplies_subject": false,
+      "manager_approval": false,
+      "authorized_signatures": 0,
+      "validity_days": 400,
+      "exportable_private_key": false,
+      "owner": null
+    }
+  ],
+  "certificate_authorities": [
+    {
+      "name": "LAB-ROOT-CA01",
+      "web_enrollment_enabled": true,
+      "https_only": false,
+      "auditing_enabled": false
+    },
+    {
+      "name": "LAB-ISSUING-CA02",
+      "web_enrollment_enabled": false,
+      "https_only": true,
+      "auditing_enabled": true
+    }
+  ]
+}
