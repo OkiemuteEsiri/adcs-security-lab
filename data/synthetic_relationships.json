@@ -1,0 +1,5 @@
+[
+  {"source":"UserAuthentication","relation":"enrollable_by","target":"Domain Users","privileged_target":true},
+  {"source":"LegacyVPNCertificate","relation":"enrollable_by","target":"VPN Certificate Users","privileged_target":false},
+  {"source":"WorkstationAuthentication","relation":"enrollable_by","target":"Domain Computers","privileged_target":false}
+]

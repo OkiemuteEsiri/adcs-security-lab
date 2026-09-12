@@ -21,5 +21,27 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Compile source and tests
+        run: python -m compileall -q src tests
+
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+
+      - name: Run synthetic attack-path smoke check
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from src.attack_paths import Relationship, build_attack_paths
+          from src.reporting import render_attack_path_report
+
+          inventory = json.loads(Path('data/synthetic_adcs_inventory.json').read_text())
+          raw = json.loads(Path('data/synthetic_relationships.json').read_text())
+          paths = build_attack_paths(inventory, [Relationship(**item) for item in raw])
+          assert paths, 'expected synthetic attack paths'
+          assert paths[0].severity in {'CRITICAL', 'HIGH'}
+          report = render_attack_path_report(paths)
+          assert 'T1649' in report
+          assert 'Remediation' in report
+          print(f'validated {len(paths)} synthetic paths')
+          PY
